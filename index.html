@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  ぐるっとポン｜LPテンプレート ❸山分け型（本体LP・iframe埋め込み用）
+  背骨：①サムネ → ②概要(山分けの仕組み) → もらえるコイン → ③コード入力へ(単一導線) → ④利用規約
+  ============================================================================
+
+  ■ 置き場所／埋め込み／高さ測定：❶と同じ運用
+    <iframe src="https://＜公開URL＞/" width="100%" height="2400"
+            style="border:none;" frameborder="0" scrolling="no"></iframe>
+    ※ height は実寸に差し替え。Google Fontsが乗り切ってから測る。
+
+  ■ この型の個性
+    ・参加対象は「既存会員のみ」。導線はコード入力への1本（取り違えなし）。
+    ・肝は「みんなで回すほど山分けコインが増える」という参加者全体の一体感・祝祭性。
+    ・★派生ページ：この型は本体に加え「中間報告ページ」「結果発表ページ」も作る。
+      それらは本体と同じ骨子の別ファイルとして後日作成する（このファイルは本体のみ）。
+
+  ■ 用語（★この型で最重要）：山分けされるのは「コイン」＝ぐるっとポンアプリ内の独自通貨。
+    リサイクルポイント（カードにたまる決済系）とは別物。必ず「コイン」と書く。
+
+  ■ 設計思想（基準書A準拠）：世界観はサムネが担う／角丸カード縦積みしない／
+    区切りは帯見出し＋余白／緑は使わない。
+  ■ GA4は親側で計測済み。ここには入れない。
+  ============================================================================
+-->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <base target="_top">
+  <title>ぐるっとポン｜コイン山分けキャンペーン</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ▼ブランドトークン：山分け＝祝祭・コイン＝金の連想でオレンジ基調。
+       main=オレンジ / CTA=レッド(単一導線) / base=淡いオレンジ。緑は不使用。 */
+    :root {
+      --base:      #fff4e6;
+      --main:      #f39800;
+      --main-deep: #d97f00;
+      --cta:       #e60039;
+      --cta-deep:  #b8002e;
+      --ink:       #33261a;
+      --ink-soft:  #6d5c4a;
+      --font-display: "Zen Maru Gothic", sans-serif;
+      --font-body:    "Zen Kaku Gothic New", sans-serif;
+      --maxw: 640px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--font-body); color: var(--ink); background: var(--base); line-height: 1.75; overflow-x: hidden; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+    .img-frame { display: block; width: 100%; aspect-ratio: var(--ratio, 16 / 10); object-fit: cover; background: #f3e3ce; }
+
+    .sumne img { display: block; width: 100%; height: auto; }
+    .wave { display: block; width: 100%; height: 28px; }
+    .term { text-align: center; font-family: var(--font-display); font-weight: 700; color: var(--main-deep); font-size: clamp(15px,4.2vw,18px); padding: 6px 0 2px; }
+
+    .band {
+      display: inline-block; background: var(--main); color: #fff;
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(18px,5vw,23px); line-height: 1.3;
+      padding: 8px 30px 8px 16px; margin: 40px 0 16px;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
+    }
+    .band.first { margin-top: 30px; }
+
+    .lead { font-size: clamp(15px,4vw,16px); }
+    .lead strong { color: var(--main-deep); }
+
+    /* 一体感の主役コピー：みんなで回すほど増える。大きく、祝祭的に */
+    .hook {
+      text-align: center; margin: 22px 0 6px; padding: 22px 8px;
+      border-top: 3px solid var(--main); border-bottom: 3px solid var(--main);
+    }
+    .hook .big {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(22px,6.5vw,30px); line-height: 1.4; color: var(--ink);
+    }
+    .hook .big span { color: var(--cta); }
+
+    /* もらえるコインの段階（回すほど増える）。角丸カードで囲わず、行＋細罫で見せる */
+    .scale { margin-top: 18px; }
+    .scale .row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 13px 4px; border-bottom: 1px dashed #e3c9a2;
+    }
+    .scale .row:first-child { border-top: 1px dashed #e3c9a2; }
+    .scale .spin { font-size: 14px; color: var(--ink-soft); }
+    .scale .spin b { color: var(--ink); font-size: 16px; }
+    .scale .coin { font-family: var(--font-display); font-weight: 900; color: var(--main-deep); font-size: clamp(18px,5.5vw,24px); white-space: nowrap; }
+    .scale .coin em { font-style: normal; font-size: 1.35em; padding: 0 2px; }
+    .scale-note { font-size: 12px; color: var(--ink-soft); margin-top: 10px; }
+
+    /* ③ 単一導線：コード入力へ */
+    .cta {
+      display: block; width: 100%; text-align: center; color: #fff; text-decoration: none;
+      font-family: var(--font-display); font-weight: 700; font-size: clamp(17px,4.8vw,20px);
+      padding: 18px 20px; border-radius: 12px; margin-top: 8px;
+      background: var(--cta); box-shadow: 0 8px 20px rgba(230,0,57,.26);
+      transition: transform .12s ease;
+    }
+    .cta:hover { transform: translateY(-2px); }
+    .cta:focus-visible { outline: 3px solid var(--main-deep); outline-offset: 3px; }
+    .cta-note { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+
+    .terms { margin-top: 12px; border-top: 2px solid #efd9bb; padding-top: 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.9; }
+    .terms li { margin-left: 1.1em; margin-bottom: 4px; }
+    .foot { text-align: center; font-size: 12px; color: var(--ink-soft); padding: 30px 20px 44px; }
+    @media (prefers-reduced-motion: reduce) { .cta { transition: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- ① サムネ（世界観の主役） -->
+  <div class="sumne">
+    <!-- ▼差し替え：メインビジュアル -->
+    <img class="img-frame" style="--ratio: 4 / 5" src="https://grt-pon.jp/media/images/placeholder-sumne.png" alt="コイン山分けキャンペーンのメインビジュアル">
+  </div>
+  <svg class="wave" viewBox="0 0 640 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,14 C120,0 200,28 320,14 C440,0 520,28 640,14 L640,28 L0,28 Z" style="fill:var(--base)"/>
+  </svg>
+
+  <div class="wrap">
+    <!-- ▼差し替え：開催期間 -->
+    <div class="term">開催期間：2026年○月○日（○）〜○月○日（○）</div>
+
+    <!-- ② 概要（山分けの仕組み・一体感） -->
+    <div class="band first">キャンペーンについて</div>
+    <!-- ▼差し替え：概要文（用語は必ず「コイン」） -->
+    <p class="lead">期間中、参加者みんなでガチャを回すほど、山分けされる<strong>コイン</strong>がどんどん増える、お祭りキャンペーンです。あなたの1回転が、みんなの山分けを大きくします。</p>
+
+    <!-- 一体感の主役コピー -->
+    <div class="hook">
+      <div class="big">回せば回すほど、<br><span>みんなの山分けコインが増える。</span></div>
+    </div>
+
+    <!-- もらえるコインの段階 -->
+    <div class="band">もらえる山分けコイン</div>
+    <div class="scale">
+      <!-- ▼差し替え：総回転数の段階ともらえるコイン（回すほど増える） -->
+      <div class="row"><div class="spin">総回転数 <b>10,000回</b> 達成で</div><div class="coin"><em>100</em>コイン</div></div>
+      <div class="row"><div class="spin">総回転数 <b>30,000回</b> 達成で</div><div class="coin"><em>300</em>コイン</div></div>
+      <div class="row"><div class="spin">総回転数 <b>50,000回</b> 達成で</div><div class="coin"><em>500</em>コイン</div></div>
+    </div>
+    <div class="scale-note">※ 山分けコインは、参加者全員に付与されます。到達した最大段階のコイン数が対象です。</div>
+
+    <!-- ③ 参加方法（単一導線：コード入力へ） -->
+    <div class="band">参加方法</div>
+    <p class="lead" style="margin-bottom:14px;">下のボタンからキャンペーンコードを入力し、期間中にガチャを回してください。ぐるっとポン会員の方が対象です。</p>
+    <!-- ▼差し替え：コード入力画面のURL -->
+    <a class="cta" href="https://grt-pon.jp/campaign/code">コードを入力して参加する</a>
+    <div class="cta-note">※ 参加には、ぐるっとポンへの会員登録が必要です。</div>
+
+    <!-- ④ 利用規約 -->
+    <div class="band">利用規約</div>
+    <ul class="terms">
+      <!-- ▼差し替え：規約項目 -->
+      <li>本キャンペーンは株式会社ステップスナインが主催します。</li>
+      <li>山分けコインは、期間終了後に対象者へまとめて付与します。</li>
+      <li>不正な方法での参加が確認された場合、対象外となることがあります。</li>
+      <li>内容は予告なく変更・終了する場合があります。</li>
+    </ul>
+  </div>
+
+  <div class="foot">ぐるっとポン ｜ 株式会社ステップスナイン</div>
+</body>
+</html>
